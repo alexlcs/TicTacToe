@@ -26,10 +26,6 @@ public class ComputerAI implements Runnable
         ComputerAI.winMoves = Rule.getWinMoves();
         while(this.cntr.gameStatus==0)
         {
-           
-                //For some reason thread stops running without no print statement
-                //
-            System.out.print("");
             if(this.cntr.turn == this.player.turn)
             {
                 this.makeMove();
@@ -37,7 +33,6 @@ public class ComputerAI implements Runnable
             try
             {
                 Thread.sleep(100);
-                //this.wait();
             } 
             catch (Exception ex) 
             {
