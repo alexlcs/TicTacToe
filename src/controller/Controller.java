@@ -20,12 +20,12 @@ public class Controller
     private JApplet view;
     private Square recentlyUpdated;
     private ComputerAI ai;
-    private Thread computerAi;
     //if gameSatus = 0 then game is still running
     //else if gameStatus = 1 then game has been won by a Player
     //else if gameStatus = 2 then game has been a tie
     public short gameStatus;
     public short turn;
+    public static short start=0;
     public Player [] players;
     // gameStatus and turn are public specially for the ComputerAI to access
 
@@ -49,20 +49,19 @@ public class Controller
     
     public void click(int r, int c)
     {
-        if(this.computerAi!=null && this.ai.player.turn == this.turn)
+        if(this.ai!=null && this.ai.player.turn == this.turn)
         {
             System.out.println("Not Your turn");
             return;
         }
         this.clicked(r, c);
-        if(this.computerAi!=null && this.gameStatus==0) this.computerAi.resume();
-        
+        if(this.ai!=null && this.gameStatus==0)
+            this.ai.run();
     }
 
     public void computerClick(int r, int c)
     {
         this.clicked(r, c);
-        this.computerAi.suspend();
     }
     
     public Board getBoard(Object ob)
@@ -95,8 +94,8 @@ public class Controller
         this.ai.player = this.players[this.turn];
         this.ai.player.turn = this.turn;
         this.ai.cont = true;
-        this.computerAi = new Thread(ai);
-        this.computerAi.start();
+        this.turn = Controller.start;
+        if(this.ai.player.turn == Controller.start)this.ai.run();
     }
     
     
@@ -126,12 +125,13 @@ public class Controller
             else this.players[1].won = true;
             ((TicTacToe)this.view).endGame();
             this.gameStatus = 2;
+            Controller.start = (short)((Controller.start+1)%2);
         }
         else if(Rule.gameEnd(this.board))
         {
            ((TicTacToe)this.view).endGame();
            this.gameStatus = 1;
-           
+           Controller.start = (short)((Controller.start+1)%2);
         }
     }
     

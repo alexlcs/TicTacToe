@@ -12,7 +12,7 @@ import ui.Square;
  *
  * @author sashi
  */
-public class ComputerAI implements Runnable
+public class ComputerAI
 {
     public Player player;
     public Square [][] squares;
@@ -20,30 +20,26 @@ public class ComputerAI implements Runnable
     public static short[][] winMoves;
     public boolean cont;
     
-    @Override
     public void run() 
     {
         ComputerAI.winMoves = Rule.getWinMoves();
-        while(this.cntr.gameStatus==0)
-        {
+      
             if(this.cntr.turn == this.player.turn)
             {
                 this.makeMove();
             }
             try
             {
-                Thread.sleep(100);
+               // Thread.sleep(100);
             } 
             catch (Exception ex) 
             {
                 System.out.println(ex.toString());
             }
-            
-        }
         System.out.print("AI Thread exiting ...\n>>>");
-        String test = new java.util.Scanner(System.in).next();
-        
+       // String test = new java.util.Scanner(System.in).next();
     }
+    
     
     private void makeMove()
     {
